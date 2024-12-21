@@ -1,5 +1,6 @@
-package com.firstcomesystem.domain.users;
+package com.firstcomesystem.domain.users.entity;
 
+import com.firstcomesystem.domain.AbstractEntity;
 import com.firstcomesystem.domain.orders.Cart;
 import com.firstcomesystem.domain.orders.Orders;
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Users {
+public class Users extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +44,13 @@ public class Users {
     private List<Cart> carts = new ArrayList<>();
 
     @Builder
-    private Users(Long id, String email, String password, String name, String phoneNumber, String address) {
-        this.id = id;
+    private Users(String email, String password, String name, String phoneNumber, String address) {
+        if(StringUtils.isEmpty(email)) throw new RuntimeException();
+        if(StringUtils.isEmpty(password)) throw new RuntimeException();
+        if(StringUtils.isEmpty(name)) throw new RuntimeException();
+        if(StringUtils.isEmpty(phoneNumber)) throw new RuntimeException();
+        if(StringUtils.isEmpty(address)) throw new RuntimeException();
+
         this.email = email;
         this.password = password;
         this.name = name;
