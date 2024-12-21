@@ -4,7 +4,6 @@ import com.firstcomesystem.domain.users.entity.Users;
 import lombok.Builder;
 import lombok.Getter;
 
-@Builder
 @Getter
 public class UserInfo {
     private final Long id;

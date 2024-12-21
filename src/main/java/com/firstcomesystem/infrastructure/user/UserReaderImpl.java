@@ -17,4 +17,9 @@ public class UserReaderImpl implements UserReader {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException());
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }

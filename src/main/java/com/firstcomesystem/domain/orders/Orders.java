@@ -1,6 +1,6 @@
 package com.firstcomesystem.domain.orders;
 
-import com.firstcomesystem.domain.users.Users;
+import com.firstcomesystem.domain.users.entity.Users;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

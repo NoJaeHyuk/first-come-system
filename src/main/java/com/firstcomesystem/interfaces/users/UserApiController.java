@@ -21,4 +21,16 @@ public class UserApiController {
         return CommonResponse.success(response);
     }
 
+    @PostMapping("/email/request")
+    public CommonResponse requestAuthCode(@RequestBody EmailRequestDto.AuthRequest request) {
+        userFacade.requestAuthCode(request.getEmail());
+        return CommonResponse.success(null);
+    }
+
+    @PostMapping("/email/verify")
+    public CommonResponse verifyAuthCode(@RequestBody EmailRequestDto.VerifyRequest request) {
+        boolean isVerified = userFacade.verifyAuthCode(request.getEmail(), request.getAuthCode());
+        return CommonResponse.success(isVerified);
+    }
+
 }

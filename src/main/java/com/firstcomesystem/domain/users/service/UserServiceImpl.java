@@ -1,5 +1,6 @@
 package com.firstcomesystem.domain.users.service;
 
+import com.firstcomesystem.common.exception.DuplicateEntityException;
 import com.firstcomesystem.domain.users.dto.UserCommand;
 import com.firstcomesystem.domain.users.dto.UserInfo;
 import com.firstcomesystem.domain.users.policy.EncryptionPolicy;
@@ -32,5 +33,13 @@ public class UserServiceImpl implements UserService {
     public UserInfo getUserInfo(Long userId) {
         Users user = userReader.gerUser(userId);
         return new UserInfo(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void checkEmailAvailability(String email) {
+        if (userReader.existsByEmail(email)) {
+            throw new DuplicateEntityException("해당 이메일은 가입되어 있습니다.");
+        }
     }
 }
