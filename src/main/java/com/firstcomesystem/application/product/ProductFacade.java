@@ -12,7 +12,11 @@ public class ProductFacade {
 
     private final ProductService productService;
 
-    public ProductInfo registerUser(ProductCommend commend) {
+    public ProductInfo registerProduct(ProductCommend commend) {
         return productService.registerUser(commend);
+    }
+
+    public ProductInfo getProduct(Long productId) {
+        return productService.getProductInfo(productId);
     }
 }

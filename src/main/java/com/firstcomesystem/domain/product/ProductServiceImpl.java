@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductStore productStore;
+    private final ProductReader productReader;
 
     @Override
     public void getProductInfos() {
@@ -16,7 +17,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductInfo getProductInfo(Long id) {
-        return null;
+        Product product = productReader.getProduct(id);
+        return new ProductInfo(product);
     }
 
     @Override
