@@ -43,5 +43,9 @@ public class ProductDto {
             this.price = productInfo.getPrice();
             this.stock = productInfo.getStock();
         }
+
+        public static ProductResponse fromProductInfo(ProductInfo productInfo) {
+            return new ProductResponse(productInfo);
+        }
     }
 }

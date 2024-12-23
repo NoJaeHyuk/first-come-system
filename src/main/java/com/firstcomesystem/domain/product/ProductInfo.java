@@ -19,4 +19,8 @@ public class ProductInfo {
         this.price = product.getPrice();
         this.stock = product.getStock();
     }
+
+    public static ProductInfo fromEntity(Product product) {
+        return new ProductInfo(product);
+    }
 }

@@ -1,6 +1,8 @@
 package com.firstcomesystem.domain.product;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,8 +13,9 @@ public class ProductServiceImpl implements ProductService {
     private final ProductReader productReader;
 
     @Override
-    public void getProductInfos() {
-
+    public Page<ProductInfo> getProductInfos(Pageable pageable) {
+        return productReader.findAll(pageable)
+                .map(ProductInfo::fromEntity);
     }
 
     @Override

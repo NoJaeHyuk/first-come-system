@@ -4,6 +4,8 @@ import com.firstcomesystem.application.product.ProductFacade;
 import com.firstcomesystem.common.response.CommonResponse;
 import com.firstcomesystem.domain.product.ProductInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,5 +27,11 @@ public class ProductApiController {
         ProductInfo productInfo = productFacade.getProduct(productId);
         ProductDto.ProductResponse response = new ProductDto.ProductResponse(productInfo);
         return CommonResponse.success(response);
+    }
+
+    @GetMapping
+    public CommonResponse getProductInfos(Pageable pageable) {
+        Page<ProductInfo> productInfos = productFacade.getProductInfos(pageable);
+        return CommonResponse.success(productInfos.map(ProductDto.ProductResponse::fromProductInfo));
     }
 }
