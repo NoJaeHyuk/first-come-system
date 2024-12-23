@@ -3,6 +3,7 @@ package com.firstcomesystem.domain.orders;
 import com.firstcomesystem.domain.product.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,14 @@ public class CartItem {
 
     @Column(nullable = false)
     private Integer quantity;
+
+    @Builder
+    private CartItem(Product product, Integer quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 }

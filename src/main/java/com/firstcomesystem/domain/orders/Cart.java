@@ -1,11 +1,11 @@
 package com.firstcomesystem.domain.orders;
 
-import com.firstcomesystem.domain.users.Users;
+import com.firstcomesystem.domain.users.entity.Users;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -21,7 +21,11 @@ public class Cart {
     private Users user;
 
     @Enumerated(EnumType.STRING)
-    private Orders.Status status;
+    private Cart.Status status;
+
+    @OneToMany(mappedBy = "cart")
+    private final List<CartItem> cartItems = new ArrayList<>();
+
 
     @Getter
     @RequiredArgsConstructor
@@ -30,5 +34,26 @@ public class Cart {
         ORDERED("비활성");   // 주문 완료된 장바구니
 
         private final String description;
+
     }
+
+    @Builder
+    private Cart(Users user, Cart.Status status) {
+        this.user = user;
+        this.status = status;
+    }
+
+    public static Cart createCart(Users user) {
+        return Cart.builder()
+                .user(user)
+                .status(Cart.Status.ACTIVE)
+                .build();
+    }
+
+    public void addItem(CartItem cartItem) {
+        cartItems.add(cartItem);
+        cartItem.setCart(this);
+    }
+
+
 }
