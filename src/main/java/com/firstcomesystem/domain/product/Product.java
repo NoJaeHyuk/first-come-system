@@ -4,6 +4,7 @@ import com.firstcomesystem.domain.orders.CartItem;
 import com.firstcomesystem.domain.orders.OrderItem;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,4 +37,13 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems = new ArrayList<>();
+
+
+    @Builder
+    public Product(String name, String description, Integer price, Integer stock) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+    }
 }
