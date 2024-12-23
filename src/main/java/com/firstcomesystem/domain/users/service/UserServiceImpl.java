@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserInfo getUserInfo(Long userId) {
         Users user = userReader.gerUser(userId);
-        return new UserInfo(user);
+        return new UserInfo(user, policy);
     }
 
     @Override

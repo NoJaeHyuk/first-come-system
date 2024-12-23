@@ -23,6 +23,11 @@ public class UserFacade {
         return userInfo;
     }
 
+    public UserInfo getUserInfo(Long userId) {
+        UserInfo userInfo = userService.getUserInfo(userId);
+        return userInfo;
+    }
+
     public void requestAuthCode(String email) {
         userService.checkEmailAvailability(email);
         String authCode = AuthCodeGenerator.generateAuthCode();

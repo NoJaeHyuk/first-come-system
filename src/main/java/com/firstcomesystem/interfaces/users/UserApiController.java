@@ -21,6 +21,14 @@ public class UserApiController {
         return CommonResponse.success(response);
     }
 
+    @GetMapping("/{userId}")
+    public CommonResponse getUserInfo(@RequestParam Long userId) {
+        // TODO 로그인 구현되면 변경될 수 도 있다.
+        UserInfo userInfo = userFacade.getUserInfo(userId);
+        UserDto.RegisterResponse response = new UserDto.RegisterResponse(userInfo);
+        return CommonResponse.success(response);
+    }
+
     @PostMapping("/email/request")
     public CommonResponse requestAuthCode(@RequestBody EmailRequestDto.AuthRequest request) {
         userFacade.requestAuthCode(request.getEmail());

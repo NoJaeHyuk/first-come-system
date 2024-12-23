@@ -34,7 +34,6 @@ public class UserDto {
     public static class RegisterResponse {
         private Long id;
         private String email;
-        private String password;
         private String name;
         private String phoneNumber;
         private String address;
@@ -42,7 +41,6 @@ public class UserDto {
         public RegisterResponse(UserInfo userInfo) {
             this.id = userInfo.getId();
             this.email = userInfo.getEmail();
-            this.password = userInfo.getPassword();
             this.name = userInfo.getName();
             this.phoneNumber = userInfo.getPhoneNumber();
             this.address = userInfo.getAddress();
