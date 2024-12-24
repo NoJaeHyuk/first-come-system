@@ -50,4 +50,12 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartReader.getByUserAndActive(user, Cart.Status.ACTIVE);
         cart.changeCartItemQuantity(cartItemId, quantity);
     }
+
+    @Override
+    @Transactional
+    public void removeCartItems(Long cartId, List<Long> itemIds) {
+        Cart cart = cartReader.getById(cartId);
+        cart.removeCartItems(itemIds);
+        cartStore.save(cart);
+    }
 }

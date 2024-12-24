@@ -29,4 +29,8 @@ public class CartFacade {
     public void updateCartItemQuantity(Long userId, Long cartItemId, Integer quantity) {
         cartService.updateCartItemQuantity(userId, cartItemId, quantity);
     }
+
+    public void removeCartItems(Long cartId, List<Long> itemIds) {
+        cartService.removeCartItems(cartId, itemIds);
+    }
 }

@@ -8,4 +8,6 @@ public interface CartReader {
     Optional<Cart> findByUserAndActive(Users user, Cart.Status active);
 
     Cart getByUserAndActive(Users user, Cart.Status active);
+
+    Cart getById(Long cartId);
 }

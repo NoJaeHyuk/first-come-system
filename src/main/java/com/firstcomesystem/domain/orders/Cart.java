@@ -25,8 +25,19 @@ public class Cart extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Cart.Status status;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<CartItem> cartItems = new ArrayList<>();
+
+    public void removeCartItems(List<Long> itemIds) {
+        List<CartItem> itemsToRemove = cartItems.stream()
+                .filter(item -> itemIds.contains(item.getId()))
+                .toList();
+
+        if (itemsToRemove.isEmpty()) {
+            throw new IllegalArgumentException("삭제 가능한 항목이 없습니다.");
+        }
+        cartItems.removeAll(itemsToRemove);
+    }
 
 
     @Getter

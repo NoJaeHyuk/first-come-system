@@ -25,4 +25,10 @@ public class CartReaderImpl implements CartReader {
         return cartRepository.findByUserAndStatus(user, active)
                 .orElseThrow(() -> new EntityNotFoundException("활성화된 장바구니가 존재하지 않습니다."));
     }
+
+    @Override
+    public Cart getById(Long cartId) {
+        return cartRepository.findById(cartId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 장바구니가 존재하지 않습니다."));
+    }
 }

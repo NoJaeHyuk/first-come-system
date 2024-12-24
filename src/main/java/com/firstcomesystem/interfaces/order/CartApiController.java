@@ -41,4 +41,13 @@ public class CartApiController {
         cartFacade.updateCartItemQuantity(userId, cartItemId, quantityChange);
         return CommonResponse.success("정상처리되었습니다.");
     }
+
+    @DeleteMapping("/{cartId}/items")
+    public CommonResponse removeCartItems(
+            @PathVariable Long cartId,
+            @RequestBody List<Long> itemIds
+    ) {
+        cartFacade.removeCartItems(cartId, itemIds);
+        return CommonResponse.success("삭제되었습니다.");
+    }
 }
