@@ -2,7 +2,6 @@ package com.firstcomesystem.domain.users.dto;
 
 import com.firstcomesystem.domain.users.entity.Users;
 import com.firstcomesystem.domain.users.policy.EncryptionPolicy;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter

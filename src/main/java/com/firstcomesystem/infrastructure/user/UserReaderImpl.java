@@ -1,7 +1,7 @@
 package com.firstcomesystem.infrastructure.user;
 
-import com.firstcomesystem.domain.users.repository.UserReader;
 import com.firstcomesystem.domain.users.entity.Users;
+import com.firstcomesystem.domain.users.repository.UserReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,6 @@
 package com.firstcomesystem.domain.users.service;
 
 import com.firstcomesystem.common.exception.MailSendingException;
-import com.firstcomesystem.common.util.AuthCodeGenerator;
 import com.firstcomesystem.common.util.EmailType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

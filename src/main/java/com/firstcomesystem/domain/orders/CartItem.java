@@ -36,4 +36,8 @@ public class CartItem {
     public void setCart(Cart cart) {
         this.cart = cart;
     }
+
+    public void changQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }

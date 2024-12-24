@@ -6,7 +6,6 @@ import com.firstcomesystem.domain.orders.CartItemInfo;
 import com.firstcomesystem.domain.orders.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,5 +23,10 @@ public class CartFacade {
 
     public List<CartItemInfo> getActiveCartItems(Long userId) {
         return cartService.getActiveCartItems(userId);
+    }
+
+
+    public void updateCartItemQuantity(Long userId, Long cartItemId, Integer quantity) {
+        cartService.updateCartItemQuantity(userId, cartItemId, quantity);
     }
 }

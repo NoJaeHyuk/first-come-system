@@ -1,5 +1,6 @@
 package com.firstcomesystem.domain.orders;
 
+import com.firstcomesystem.common.exception.EntityNotFoundException;
 import com.firstcomesystem.domain.AbstractEntity;
 import com.firstcomesystem.domain.users.entity.Users;
 import jakarta.persistence.*;
@@ -36,8 +37,8 @@ public class Cart extends AbstractEntity {
 
         private final String description;
 
-    }
 
+    }
     @Builder
     private Cart(Users user, Cart.Status status) {
         this.user = user;
@@ -54,6 +55,15 @@ public class Cart extends AbstractEntity {
     public void addItem(CartItem cartItem) {
         cartItems.add(cartItem);
         cartItem.setCart(this);
+    }
+
+    public void changeCartItemQuantity(Long cartItemId, Integer quantity) {
+        CartItem item = cartItems.stream()
+                .filter(i -> i.getId() == cartItemId)
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+
+        item.changQuantity(quantity);
     }
 
 

@@ -5,11 +5,8 @@ import com.firstcomesystem.domain.orders.Cart;
 import com.firstcomesystem.domain.orders.CartReader;
 import com.firstcomesystem.domain.users.entity.Users;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Component

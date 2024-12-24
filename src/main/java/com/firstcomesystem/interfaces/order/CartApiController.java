@@ -31,4 +31,14 @@ public class CartApiController {
                 .collect(Collectors.toList());
         return CommonResponse.success(responses);
     }
+
+    @PatchMapping("/items/{cartItemId}/quantity")
+    public CommonResponse updateCartItemQuantity(
+            @PathVariable Long cartItemId,
+            @RequestParam Long userId,
+            @RequestParam int quantityChange
+    ) {
+        cartFacade.updateCartItemQuantity(userId, cartItemId, quantityChange);
+        return CommonResponse.success("정상처리되었습니다.");
+    }
 }

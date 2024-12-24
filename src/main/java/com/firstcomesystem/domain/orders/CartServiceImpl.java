@@ -42,4 +42,12 @@ public class CartServiceImpl implements CartService {
                 .map(CartItemInfo::toCartItemInfo)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public void updateCartItemQuantity(Long userId, Long cartItemId, Integer quantity) {
+        Users user = userReader.gerUser(userId);
+        Cart cart = cartReader.getByUserAndActive(user, Cart.Status.ACTIVE);
+        cart.changeCartItemQuantity(cartItemId, quantity);
+    }
 }

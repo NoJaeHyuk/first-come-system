@@ -1,6 +1,5 @@
 package com.firstcomesystem.domain.orders;
 
-import com.firstcomesystem.domain.product.Product;
 import lombok.Getter;
 
 @Getter
