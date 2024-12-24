@@ -6,6 +6,10 @@ import com.firstcomesystem.domain.users.entity.Users;
 import com.firstcomesystem.domain.users.repository.UserReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +20,7 @@ public class CartServiceImpl implements CartService {
     private final CartStore cartStore;
 
     @Override
+    @Transactional
     public CartInfo registerCart(Long userId, CartItemCommend commend) {
         Users user = userReader.gerUser(userId);
 
@@ -26,5 +31,15 @@ public class CartServiceImpl implements CartService {
 
         cart.addItem(commend.toCartItem(product));
         return new CartInfo(cart);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CartItemInfo> getActiveCartItems(Long userId) {
+        Users user = userReader.gerUser(userId);
+        Cart cart = cartReader.getByUserAndActive(user, Cart.Status.ACTIVE);
+        return cart.getCartItems().stream()
+                .map(CartItemInfo::toCartItemInfo)
+                .collect(Collectors.toList());
     }
 }

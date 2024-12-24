@@ -1,5 +1,6 @@
 package com.firstcomesystem.domain.orders;
 
+import com.firstcomesystem.domain.AbstractEntity;
 import com.firstcomesystem.domain.users.entity.Users;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Cart {
+public class Cart extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
