@@ -43,7 +43,8 @@ public class Orders {
         DELIVERY_PREPARE("배송준비"),
         IN_DELIVERY("배송중"),
         DELIVERY_COMPLETE("배송완료"),
-        CANCELLED("주문취소");
+        CANCELLED("주문취소"),
+        RETURN_REQUESTED("반품");
 
         private final String description;
     }

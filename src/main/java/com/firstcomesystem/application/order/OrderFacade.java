@@ -18,4 +18,7 @@ public class OrderFacade {
         return orderService.cancelOrder(orderId);
     }
 
+    public void returnOrder(Long orderId) {
+        orderService.returnOrder(orderId);
+    }
 }

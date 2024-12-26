@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZonedDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -54,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Long cancelOrder(Long orderId) {
         Orders order = orderReader.getById(orderId);
 
@@ -71,6 +74,37 @@ public class OrderServiceImpl implements OrderService {
         // 주문 상태 변경
         order.updateStatus(Orders.Status.CANCELLED);
 
-        return null;
+        return order.getId();
+    }
+
+    @Override
+    @Transactional
+    public void returnOrder(Long orderId) {
+        // 주문 조회
+        Orders order = orderReader.getById(orderId);
+
+        // 주문 상태 확인
+        if (order.getStatus() != Orders.Status.DELIVERY_COMPLETE) {
+            throw new IllegalStateException("배송 완료된 주문만 반품이 가능합니다.");
+        }
+
+        // 반품 가능 날짜 검증
+        if (order.getOrderAt().plusDays(1).isBefore(ZonedDateTime.now())) {
+            throw new IllegalStateException("반품 가능 기간이 지났습니다.");
+        }
+
+        // 재고 복구 예약 및 상태 변경
+        for (OrderItem orderItem : order.getOrderItems()) {
+            Product product = productReader.getProduct(orderItem.getProductId());
+            // scheduleRestock(orderItem.getQuantity(), product);
+        }
+
+        order.updateStatus(Orders.Status.RETURN_REQUESTED);
+    }
+
+    private void scheduleRestock(int quantity, Product product) {
+        // 예: 비동기 작업 또는 특정 날짜에 실행될 스케줄러를 등록
+        // 단순히 예제를 위해 바로 재고 증가
+        product.increaseStock(quantity);
     }
 }
