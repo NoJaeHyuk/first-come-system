@@ -14,4 +14,8 @@ public class OrderFacade {
         return orderService.registerOrder(commend, userId);
     }
 
+    public Long cancelOrder(Long orderId) {
+        return orderService.cancelOrder(orderId);
+    }
+
 }

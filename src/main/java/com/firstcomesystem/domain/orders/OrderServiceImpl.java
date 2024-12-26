@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderStore orderStore;
+    private final OrderReader orderReader;
     private final UserReader userReader;
     private final CartReader cartReader;
     private final ProductReader productReader;
@@ -50,5 +51,26 @@ public class OrderServiceImpl implements OrderService {
         //TODO: 결제에 대한 부분이 들어온다면 금액 결제에 대한 부분이 들어올 수 있다.
 
         return savedOrder.getId();
+    }
+
+    @Override
+    public Long cancelOrder(Long orderId) {
+        Orders order = orderReader.getById(orderId);
+
+        // 배송 상태 확인
+        if (order.getStatus() == Orders.Status.IN_DELIVERY || order.getStatus() == Orders.Status.DELIVERY_COMPLETE) {
+            throw new IllegalStateException("배송 중이거나 완료된 주문은 취소할 수 없습니다.");
+        }
+
+        // 재고 복구
+        for (OrderItem orderItem : order.getOrderItems()) {
+            Product product = productReader.getProduct(orderItem.getProductId());
+            product.increaseStock(orderItem.getQuantity());
+        }
+
+        // 주문 상태 변경
+        order.updateStatus(Orders.Status.CANCELLED);
+
+        return null;
     }
 }

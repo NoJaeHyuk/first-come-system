@@ -34,6 +34,7 @@ public class Orders {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     List<OrderItem> orderItems = new ArrayList<>();
 
+
     @Getter
     @RequiredArgsConstructor
     public enum Status {
@@ -41,7 +42,8 @@ public class Orders {
         ORDER_COMPLETE("주문완료"),
         DELIVERY_PREPARE("배송준비"),
         IN_DELIVERY("배송중"),
-        DELIVERY_COMPLETE("배송완료");
+        DELIVERY_COMPLETE("배송완료"),
+        CANCELLED("주문취소");
 
         private final String description;
     }
@@ -52,5 +54,9 @@ public class Orders {
         this.cart = cart;
         this.status = Status.INIT;
         this.orderAt = ZonedDateTime.now();
+    }
+
+    public void updateStatus(Status status) {
+        this.status = status;
     }
 }

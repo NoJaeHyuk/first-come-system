@@ -49,4 +49,8 @@ public class Product {
         }
         this.stock -= quantity;
     }
+
+    public void increaseStock(Integer quantity) {
+        this.stock += quantity;
+    }
 }

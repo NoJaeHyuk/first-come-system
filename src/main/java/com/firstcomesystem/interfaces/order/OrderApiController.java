@@ -17,4 +17,11 @@ public class OrderApiController {
         Long resultData = orderFacade.registerOrder(request.toCommand(), userId);
         return CommonResponse.success(resultData);
     }
+
+
+    @PatchMapping("/{orderId}/cancel")
+    public CommonResponse cancelOrder(@PathVariable Long orderId) {
+        Long resultData = orderFacade.cancelOrder(orderId);
+        return CommonResponse.success(resultData);
+    }
 }
