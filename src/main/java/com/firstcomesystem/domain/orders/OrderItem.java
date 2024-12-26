@@ -3,6 +3,7 @@ package com.firstcomesystem.domain.orders;
 import com.firstcomesystem.domain.product.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,13 +20,25 @@ public class OrderItem {
     @JoinColumn(name = "order_id", nullable = false)
     private Orders order;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
     @Column(nullable = false)
     private Integer quantity;
 
     @Column(nullable = false)
-    private Integer priceAtOrder;
+    private Long productId;
+
+    @Column(nullable = false)
+    private String productName;
+
+    @Column(nullable = false)
+    private Integer price;
+
+
+    @Builder
+    private OrderItem(Orders order, Integer quantity, Long productId, String productName, Integer price) {
+        this.order = order;
+        this.quantity = quantity;
+        this.productId = productId;
+        this.productName = productName;
+        this.price = price;
+    }
 }

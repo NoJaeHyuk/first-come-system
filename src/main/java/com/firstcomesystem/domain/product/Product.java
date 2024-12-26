@@ -35,15 +35,18 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<CartItem> cartItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
-    private List<OrderItem> orderItems = new ArrayList<>();
-
-
     @Builder
     public Product(String name, String description, Integer price, Integer stock) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
+    }
+
+    public void decreaseStock(Integer quantity) {
+        if (this.stock < quantity) {
+            throw new IllegalStateException("재고가 부족합니다.");
+        }
+        this.stock -= quantity;
     }
 }

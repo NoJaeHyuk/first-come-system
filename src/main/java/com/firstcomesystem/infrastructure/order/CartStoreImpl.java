@@ -1,4 +1,4 @@
-package com.firstcomesystem.infrastructure.cart;
+package com.firstcomesystem.infrastructure.order;
 
 import com.firstcomesystem.domain.orders.Cart;
 import com.firstcomesystem.domain.orders.CartStore;

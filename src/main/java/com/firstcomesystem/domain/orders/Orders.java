@@ -2,12 +2,11 @@ package com.firstcomesystem.domain.orders;
 
 import com.firstcomesystem.domain.users.entity.Users;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -32,6 +31,9 @@ public class Orders {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<OrderItem> orderItems = new ArrayList<>();
+
     @Getter
     @RequiredArgsConstructor
     public enum Status {
@@ -42,5 +44,13 @@ public class Orders {
         DELIVERY_COMPLETE("배송완료");
 
         private final String description;
+    }
+
+    @Builder
+    private Orders(Users user, Cart cart) {
+        this.user = user;
+        this.cart = cart;
+        this.status = Status.INIT;
+        this.orderAt = ZonedDateTime.now();
     }
 }
