@@ -22,7 +22,7 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public CartInfo registerCart(Long userId, CartItemCommend commend) {
-        Users user = userReader.gerUser(userId);
+        Users user = userReader.getUser(userId);
 
         Cart cart = cartReader.findByUserAndActive(user, Cart.Status.ACTIVE)
                 .orElseGet(() -> cartStore.save(Cart.createCart(user)));
@@ -36,7 +36,7 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional(readOnly = true)
     public List<CartItemInfo> getActiveCartItems(Long userId) {
-        Users user = userReader.gerUser(userId);
+        Users user = userReader.getUser(userId);
         Cart cart = cartReader.getByUserAndActive(user, Cart.Status.ACTIVE);
         return cart.getCartItems().stream()
                 .map(CartItemInfo::toCartItemInfo)
@@ -46,7 +46,7 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public void updateCartItemQuantity(Long userId, Long cartItemId, Integer quantity) {
-        Users user = userReader.gerUser(userId);
+        Users user = userReader.getUser(userId);
         Cart cart = cartReader.getByUserAndActive(user, Cart.Status.ACTIVE);
         cart.changeCartItemQuantity(cartItemId, quantity);
     }

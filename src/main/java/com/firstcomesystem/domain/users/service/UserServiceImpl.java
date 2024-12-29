@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public UserInfo getUserInfo(Long userId) {
-        Users user = userReader.gerUser(userId);
+        Users user = userReader.getUser(userId);
         return new UserInfo(user, policy);
     }
 

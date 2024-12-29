@@ -1,10 +1,8 @@
 package com.firstcomesystem.infrastructure.user;
 
 import com.firstcomesystem.domain.users.entity.Redis;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 @Component
 public interface RedisRepository extends CrudRepository<Redis, String> {

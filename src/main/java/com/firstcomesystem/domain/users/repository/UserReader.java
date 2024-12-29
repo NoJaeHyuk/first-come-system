@@ -3,7 +3,9 @@ package com.firstcomesystem.domain.users.repository;
 import com.firstcomesystem.domain.users.entity.Users;
 
 public interface UserReader {
-    public Users gerUser(Long userId);
+    Users getUser(Long userId);
 
     boolean existsByEmail(String email);
+
+    Users getUserByEmail(String email);
 }

@@ -22,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Long registerOrder(OrderCommend.RegisterOrder commend, Long userId) {
-        Users user = userReader.gerUser(userId);
+        Users user = userReader.getUser(userId);
         Cart cart = cartReader.getById(commend.getCartId());
 
         // root 먼저 저장

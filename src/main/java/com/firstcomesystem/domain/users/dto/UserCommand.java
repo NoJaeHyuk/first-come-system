@@ -19,7 +19,7 @@ public class UserCommand {
     public Users toEntity(EncryptionPolicy policy) {
         return Users.builder()
                 .email(policy.encryptData(email))
-                .password(password)
+                .password(policy.hashData(password))
                 .name(policy.encryptData(name))
                 .phoneNumber(policy.encryptData(phoneNumber))
                 .address(policy.encryptData(address))

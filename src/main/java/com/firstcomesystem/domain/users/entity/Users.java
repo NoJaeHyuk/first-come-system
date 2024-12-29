@@ -31,7 +31,7 @@ public class Users extends AbstractEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String phoneNumber;
 
     @Column(nullable = false)

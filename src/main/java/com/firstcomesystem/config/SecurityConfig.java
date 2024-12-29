@@ -1,15 +1,13 @@
 package com.firstcomesystem.config;
 
-import com.firstcomesystem.common.interceptor.JwtTokenFilter;
-import com.firstcomesystem.common.util.JwtTokenProvider;
-import com.firstcomesystem.domain.users.service.RedisTokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -17,30 +15,31 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // CSRF 비활성화
-            .httpBasic(httpBasic -> httpBasic.disable()) // HTTP Basic 비활성화
-            .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless 설정
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/**").permitAll() // 인증이 필요 없는 경로
-                    .anyRequest().authenticated() // 나머지 요청은 인증 필요
-            )
-            .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .csrf(csrf -> csrf.disable()) // CSRF 비활성화
+                .httpBasic(httpBasic -> httpBasic.disable()) // HTTP Basic 비활성화
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless 설정
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll() // 인증이 필요 없는 경로
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+                        .anyRequest().authenticated() // 나머지 요청은 인증 필요
+                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

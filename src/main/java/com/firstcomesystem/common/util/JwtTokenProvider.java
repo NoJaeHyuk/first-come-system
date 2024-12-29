@@ -14,29 +14,30 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.expiration}")
-    private long validityInMilliseconds;
+    @Value("${jwt.accessTokenValidity}")
+    private long accessTokenValidity;
 
-    private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(secretKey.getBytes());
-    }
+    @Value("${jwt.refreshTokenValidity}")
+    private long refreshTokenValidity;
 
-    public String createToken(String username) {
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
-
+    public String createAccessToken(String email) {
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .setSubject(email)
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenValidity))
+                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 
-    public String getUsername(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
+    public String createRefreshToken() {
+        return Jwts.builder()
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidity))
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+    }
+
+    public String getEmailFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
@@ -44,7 +45,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
